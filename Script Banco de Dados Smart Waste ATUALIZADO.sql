@@ -24,17 +24,17 @@ CREATE TABLE usuario (
 
 -- TABELA: endereco
 CREATE TABLE endereco (
-idEndereco INT,
+idEndereco INT PRIMARY KEY AUTO_INCREMENT,
 rua VARCHAR(45),
 complemento VARCHAR(45),
 bairro VARCHAR(45),
 CEP VARCHAR(45),
-fk_hospital_idhospital INT,
+fkhospital INT,
 FOREIGN KEY (fkhospital) REFERENCES hospital(idhospital)
 );
 
 -- TABELA: local
-CREATE TABLE local (
+CREATE TABLE local_lixeira (
     idLocal INT PRIMARY KEY AUTO_INCREMENT,
     descricao VARCHAR(150),
     fkhospital INT,
@@ -61,11 +61,11 @@ CREATE TABLE lixeira (
     idLixeira INT PRIMARY KEY AUTO_INCREMENT,
     identificacao VARCHAR(50),
     capacidadeMaxima FLOAT,
-    fk_local_idLocal INT,
+    fk_localLixeira_idLocal INT,
     fk_tipoResiduo_idTipo INT,
     fk_sensor_idSensor INT,
     fkhospital INT,
-    FOREIGN KEY (fk_local_idLocal) REFERENCES local(idLocal),
+    FOREIGN KEY (fk_localLixeira_idLocal) REFERENCES local_lixeira(idLocal),
     FOREIGN KEY (fk_tipoResiduo_idTipo) REFERENCES tipoResiduo(idTipo),
     FOREIGN KEY (fk_sensor_idSensor) REFERENCES sensor(idSensor),
     FOREIGN KEY (fkhospital) REFERENCES hospital(idhospital)
