@@ -29,7 +29,7 @@ rua VARCHAR(45),
 complemento VARCHAR(45),
 bairro VARCHAR(45),
 CEP VARCHAR(45),
-fk_hospital_idHospital INT,
+fk_hospital_idhospital INT,
 FOREIGN KEY (fkhospital) REFERENCES hospital(idhospital)
 );
 
