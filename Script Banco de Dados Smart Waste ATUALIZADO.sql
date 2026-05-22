@@ -1,5 +1,5 @@
-CREATE DATABASE Smart_Waste;
-USE Smart_Waste;
+CREATE DATABASE smart_waste;
+USE smart_waste;
 
 -- TABELA: hospital
 CREATE TABLE hospital (
