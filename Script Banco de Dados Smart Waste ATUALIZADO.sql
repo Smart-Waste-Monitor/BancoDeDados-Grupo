@@ -87,17 +87,10 @@ CREATE TABLE alerta (
     nivel VARCHAR(50),
     mensagem VARCHAR(200),
     dataHora DATETIME,
-    leitura_idLeitura INT,
-    FOREIGN KEY (leitura_idLeitura) REFERENCES leitura(idLeitura)
-);
-
--- TABELA: contato
-CREATE TABLE contato (
-    idContato INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(100),
-    assunto VARCHAR(150),
-    mensagem TEXT,
-    dataEnvio DATETIME
+    leitura_idLeitura INT UNIQUE,
+    
+    FOREIGN KEY (leitura_idLeitura)
+        REFERENCES leitura(idLeitura)
 );
 
 -- INSERTS INICIAIS
@@ -107,16 +100,3 @@ INSERT INTO tipoResiduo (descricao) VALUES
 ('C - Radioativo'),
 ('D - Comum'),
 ('E - Perfurocortante');
-
-
-
-/*
-UPDATE empresa
-SET codigo_ativacao = '321'
-WHERE idEmpresa = 2;
-
--- drop DATABASE smart_waste;
-
-SELECT * from empresa;
-SELECT * from usuario;
-*/
