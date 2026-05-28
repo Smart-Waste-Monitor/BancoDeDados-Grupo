@@ -113,6 +113,7 @@ INSERT INTO hospital (nome, cnpj, email, codigo_ativacao, telefone) VALUES
 -- =============================================
 -- Hospital São Lucas (idhospital = 1)
 INSERT INTO usuario (nome, email, senha, fkhospital) VALUES
+('BOB Suporte', 'bob.suporte@gmail.com', 'BOBOBOBO', 1),
 ('Carlos Almeida', 'carlos.almeida@saolucas.com.br', 'senha123', 1),
 ('Mariana Souza', 'mariana.souza@saolucas.com.br', 'senha123', 1),
 ('Roberto Lima', 'roberto.lima@saolucas.com.br', 'senha123', 1);
