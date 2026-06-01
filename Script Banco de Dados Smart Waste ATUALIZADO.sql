@@ -197,7 +197,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (31.8, 63.60, '2024-01-15 09:00:00', 1),
 (36.1, 72.20, '2024-01-15 09:30:00', 1),
 (40.5, 81.00, '2024-01-15 10:00:00', 1),
-(45.2, 90.40, '2024-01-15 10:30:00', 1);
+(300.2, 90.40, '2024-01-15 10:30:00', 1);
 
 -- Sensor 2 - Santa Casa - LIX-INF-002
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -210,7 +210,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (20.1, 40.20, '2024-01-15 09:00:00', 2),
 (24.7, 49.40, '2024-01-15 09:30:00', 2),
 (28.9, 57.80, '2024-01-15 10:00:00', 2),
-(33.2, 66.40, '2024-01-15 10:30:00', 2);
+(90.2, 66.40, '2024-01-15 10:30:00', 2);
 
 -- Sensor 3 - Hospital São Lucas - LIX-QUI-003
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -223,7 +223,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (10.8, 36.00, '2024-01-15 09:00:00', 3),
 (12.4, 41.33, '2024-01-15 09:30:00', 3),
 (14.1, 47.00, '2024-01-15 10:00:00', 3),
-(16.2, 54.00, '2024-01-15 10:30:00', 3);
+(230.2, 54.00, '2024-01-15 10:30:00', 3);
 
 -- Sensor 4 - Santa Casa - LIX-QUI-004
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -236,7 +236,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (10.5, 35.00, '2024-01-15 09:00:00', 4),
 (12.3, 41.00, '2024-01-15 09:30:00', 4),
 (13.9, 46.33, '2024-01-15 10:00:00', 4),
-(15.8, 52.67, '2024-01-15 10:30:00', 4);
+(150.8, 52.67, '2024-01-15 10:30:00', 4);
 
 -- Sensor 5 - Hospital São Lucas - LIX-RAD-005
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -275,7 +275,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (51.3, 51.30, '2024-01-15 09:00:00', 7),
 (58.9, 58.90, '2024-01-15 09:30:00', 7),
 (65.4, 65.40, '2024-01-15 10:00:00', 7),
-(72.1, 72.10, '2024-01-15 10:30:00', 7);
+(320.1, 72.10, '2024-01-15 10:30:00', 7);
 
 -- Sensor 8 - Santa Casa - LIX-COM-008
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -288,7 +288,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (45.2, 45.20, '2024-01-15 09:00:00', 8),
 (52.7, 52.70, '2024-01-15 09:30:00', 8),
 (61.3, 61.30, '2024-01-15 10:00:00', 8),
-(69.8, 69.80, '2024-01-15 10:30:00', 8);
+(380.8, 69.80, '2024-01-15 10:30:00', 8);
 
 -- Sensor 9 - Hospital São Lucas - LIX-PERF-009
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -301,7 +301,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (21.8, 72.67, '2024-01-15 09:00:00', 9),
 (24.5, 81.67, '2024-01-15 09:30:00', 9),
 (27.1, 90.33, '2024-01-15 10:00:00', 9),
-(29.2, 97.33, '2024-01-15 10:30:00', 9);
+(290.2, 97.33, '2024-01-15 10:30:00', 9);
 
 -- Sensor 10 - Santa Casa - LIX-PERF-010 (em manutenção)
 INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSensor) VALUES
@@ -312,4 +312,23 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (11.8, 39.33, '2024-01-14 08:00:00', 10),
 (14.2, 47.33, '2024-01-14 08:30:00', 10),
 (16.7, 55.67, '2024-01-14 09:00:00', 10),
-(19.3, 64.33, '2024-01-14 09:30:00', 10);
+(190.3, 64.33, '2024-01-14 09:30:00', 10);
+
+CREATE VIEW vw_geralVolumes AS
+SELECT l.identificacao AS nome_lixeira,
+    t.descricao AS tipo_residuo,
+    le.volumeAtual AS volume_atual,
+    ROUND(((400 - le.volumeAtual) / 400) * 100, 2) AS volume_percentual,
+    le.dataHora AS ultima_medicao
+FROM lixeira l
+JOIN tipoResiduo t
+    ON l.fk_tipoResiduo_idTipo = t.idTipo
+JOIN leitura le
+    ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
+WHERE le.idLeitura = (
+    SELECT idLeitura FROM leitura le2
+    WHERE le2.fk_sensor_idSensor = l.fk_sensor_idSensor
+    ORDER BY le2.dataHora DESC
+    LIMIT 1
+)
+ORDER BY l.identificacao ASC;
