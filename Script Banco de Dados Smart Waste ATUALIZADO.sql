@@ -314,7 +314,7 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 (16.7, 55.67, '2024-01-14 09:00:00', 10),
 (190.3, 64.33, '2024-01-14 09:30:00', 10);
 
-CREATE VIEW vw_geralVolumes AS
+CREATE VIEW vw_atualVolumes AS
 SELECT l.identificacao AS nome_lixeira,
     t.descricao AS tipo_residuo,
     le.volumeAtual AS volume_atual,
