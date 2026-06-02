@@ -332,3 +332,17 @@ WHERE le.idLeitura = (
     LIMIT 1
 )
 ORDER BY l.identificacao ASC;
+
+-- Segunda view
+CREATE VIEW vw_geralVolumes AS
+SELECT l.identificacao AS nome_lixeira,
+    t.descricao AS tipo_residuo,
+    le.volumeAtual AS volume_atual,
+    ROUND(((400 - le.volumeAtual) / 400) * 100, 2) AS volume_percentual,
+    le.dataHora AS data_medicao
+FROM lixeira l
+JOIN tipoResiduo t
+    ON l.fk_tipoResiduo_idTipo = t.idTipo
+JOIN leitura le
+    ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
+ORDER BY l.identificacao ASC, le.dataHora ASC;
