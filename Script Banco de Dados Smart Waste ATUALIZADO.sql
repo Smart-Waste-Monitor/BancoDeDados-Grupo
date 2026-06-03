@@ -335,14 +335,29 @@ ORDER BY l.identificacao ASC;
 
 -- Segunda view
 CREATE VIEW vw_geralVolumes AS
-SELECT l.identificacao AS nome_lixeira,
-    t.descricao AS tipo_residuo,
-    le.volumeAtual AS volume_atual,
-    ROUND(((400 - le.volumeAtual) / 400) * 100, 2) AS volume_percentual,
-    le.dataHora AS data_medicao
-FROM lixeira l
-JOIN tipoResiduo t
-    ON l.fk_tipoResiduo_idTipo = t.idTipo
-JOIN leitura le
-    ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
-ORDER BY l.identificacao ASC, le.dataHora ASC;
+-- Essas são as colunas que a view vai mostrar
+SELECT nome_lixeira,
+    tipo_residuo,
+    volume_atual,
+    volume_percentual,
+    data_medicao
+-- Tudo abaixo é uma consulta temporária que organiza os dados
+FROM (
+    SELECT 
+        l.identificacao AS nome_lixeira,
+        t.descricao AS tipo_residuo,
+        le.volumeAtual AS volume_atual,
+        ROUND(((400 - le.volumeAtual) / 400) * 100, 2) AS volume_percentual,
+        le.dataHora AS data_medicao,
+        ROW_NUMBER() OVER (
+            PARTITION BY l.identificacao
+            ORDER BY le.dataHora DESC
+        ) AS rn
+    FROM lixeira l
+        JOIN tipoResiduo t ON l.fk_tipoResiduo_idTipo = t.idTipo
+        JOIN leitura le ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
+) ranked
+-- Só pega as 48 leituras mais novas de cada lixeira
+WHERE rn <= 48
+-- Ordena tudo por nome da lixeira (A-Z) e depois da leitura mais antiga para a mais nova
+ORDER BY nome_lixeira ASC, data_medicao ASC;
