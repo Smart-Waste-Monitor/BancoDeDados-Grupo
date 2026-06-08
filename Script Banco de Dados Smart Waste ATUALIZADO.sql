@@ -586,23 +586,23 @@ INSERT INTO leitura (volumeAtual, percentualPreenchido, dataHora, fk_sensor_idSe
 
 
 CREATE VIEW vw_atualVolumes AS
-SELECT l.identificacao AS nome_lixeira,
-    t.descricao AS tipo_residuo,
-    le.volumeAtual AS volume_atual,
-    ROUND(((l.capacidadeMaxima - le.volumeAtual) / l.capacidadeMaxima) * 100, 2) AS volume_percentual,
-    le.dataHora AS ultima_medicao
+  SELECT le.idLeitura AS id_leitura,
+  l.identificacao AS nome_lixeira,
+  t.descricao AS tipo_residuo,
+  le.volumeAtual AS volume_atual,
+  ROUND(((400 - le.volumeAtual) / 400) * 100, 2) AS volume_percentual,
+  le.dataHora AS ultima_medicao
 FROM lixeira l
 JOIN tipoResiduo t
-    ON l.fk_tipoResiduo_idTipo = t.idTipo
+  ON l.fk_tipoResiduo_idTipo = t.idTipo
 JOIN leitura le
-    ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
+  ON l.fk_sensor_idSensor = le.fk_sensor_idSensor
 WHERE le.idLeitura = (
-    SELECT idLeitura FROM leitura le2
-    WHERE le2.fk_sensor_idSensor = l.fk_sensor_idSensor
-    ORDER BY le2.dataHora DESC
-    LIMIT 1
-)
-ORDER BY l.identificacao ASC;
+  SELECT idLeitura FROM leitura le2
+  WHERE le2.fk_sensor_idSensor = l.fk_sensor_idSensor
+  ORDER BY le2.dataHora DESC
+  LIMIT 1
+)ORDER BY l.identificacao ASC
 
 -- Segunda view
 CREATE VIEW vw_geralVolumes AS
